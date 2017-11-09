@@ -20,22 +20,16 @@ class Search extends Component {
     handleFormSubmit : event => {
       event.preventDefault();
       if (this.state.topic) {
-        this.setState({articles: [<h2 key="z">Loading..</h2>]});
+        this.setState({articles: [<img src="lg.fidget-spinner.gif" alt="Loading.." height="400" width="400"/>]});
         API.searchNyt(this.state.topic, this.state.startYear, this.state.endYear)
         .then(res =>{
           console.log(res.data.response.docs.length);
         const results = this.showResults(res.data.response.docs);
-        this.setState({articles: results, topic: "", startYear:"", endYear: ""});
-          
+        this.setState({articles: results, topic: "", startYear:"", endYear: ""}); 
         });
       }
     }
   };
-  
-  // Handles updating component state when the user types into the input field
-  
-
-  // When the form is submitted, use the API.searchNyt method to search for 
   
   saveArticle = (title, url, date) => {
     API.saveArticle({title: title, url: url, date: date});
@@ -47,19 +41,17 @@ class Search extends Component {
     }
     else{
     return articles.map(article => (
-    <div key={article.web_url}>
-    <ListItem>
-    <h4>{article.headline.main}</h4>
-    <p>{article.snippet}</p>
-    <p>{article.pub_date}</p>
-    
-    <a className="btn btn-lg btn-primary mr-2" href={article.web_url} target="_blank">Go to Article</a>
-    <button className="btn btn-lg btn-info m2" onClick={()=>this.saveArticle(article.headline.main, article.web_url, article.pub_date)}>Save Article</button>
-    
-    </ListItem>
-    <hr/>
-    </div>
-    ));
+      <div key={article.web_url}>
+        <ListItem>
+          <h4>{article.headline.main}</h4>
+          <p>{article.snippet}</p>
+          <p>{article.pub_date}</p>
+          <a className="btn btn-lg btn-primary mr-2" href={article.web_url} target="_blank">Go to Article</a>
+          <button className="btn btn-lg btn-info m2" onClick={()=>this.saveArticle(article.headline.main, article.web_url, article.pub_date)}>Save Article</button>
+        </ListItem>
+        <hr/>
+      </div>
+    )); 
   }
   }
   render() {
